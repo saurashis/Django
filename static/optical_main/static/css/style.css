@@ -1,0 +1,49 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+.month-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px;
+    padding: 20px;
+    background-color: #d0e596;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.month-info {
+    flex: 1;
+    padding-right: 30px;
+    text-align: left;
+}
+
+.month-info h1 {
+    font-size: 3em;
+    color: #333;
+    margin-bottom: 100px;
+}
+
+.month-info p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #555;
+}
+
+
+
+/* Add some hover effects to make it more interactive */
+.month-container:hover {
+    background-color: #a7e0ef; 
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+

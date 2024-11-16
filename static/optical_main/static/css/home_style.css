@@ -1,0 +1,77 @@
+
+
+
+/* styles.css */
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #A8A7A7;
+    color: #A8A7A7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Tabs container */
+.tabs-container {
+    text-align: center;
+    background-color: #363636;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0px 40px #474747;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Heading */
+.tabs-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #A8A7A7;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    
+}
+
+/* Each tab styling */
+.tab {
+    display: flex;
+    text-decoration: none;
+    color: white;
+    background-color: #CC527A;
+    padding: 10px 10px;
+    border-radius: 100px;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0px 7px #E8175D;
+    min-width: 100px;
+    min-height: 100px;
+    justify-content: center; /* Center content horizontally */
+    align-items: center;
+}
+
+/* Hover effect */
+.tab:hover {
+    background-color: #E8175D;
+    border-radius: 40px;
+    transform: scale(1.1);
+    
+}
+
+
+
+/* Active state (optional, can be dynamically added using Django templates) */
+.tab:active {
+    background-color: #000000;
+}

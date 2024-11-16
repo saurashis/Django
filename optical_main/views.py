@@ -5,10 +5,10 @@ import os
 # Create your views here.
 
 def main(request):
-    return HttpResponse('This main page')
+    return render(request,'Optical_main/home.html')  
 
 def home(request):
-    return HttpResponse('This Home page')  
+    return render(request,'Optical_main/home.html')  
 
 def about(request):
     return HttpResponse('This about page')
@@ -52,7 +52,6 @@ def months(request,month):
         'name':month.capitalize(),
         'des': dir[month.capitalize()]
     }
-    
     return render(request,'Optical_main/month.html',{'month_data':month_details})
 
     
