@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse,redirect
+from django.urls import reverse
 import os
 # Create your views here.
 
@@ -7,16 +8,12 @@ def main(request):
     return HttpResponse('This main page')
 
 def home(request):
-    return redirect('main')  #This will redirect to main upon typing the /home
+    return HttpResponse('This Home page')  
 
 def about(request):
     return HttpResponse('This about page')
 
-def months(request,month):
-    if month.lower() == 'favicon.ico':
-        return HttpResponse("")
-    dir={
-
+dir={
     "January": "The year kicks off with January, symbolizing new beginnings. It’s named after Janus, the Roman god of doors and transitions, reflecting the duality of looking back and forward. Special days include New Year’s Day and celebrations like Makar Sankranti and Pongal in India. The cold winter weather in many parts makes it a cozy time for reflection and resolutions.",
     
     "February": "The shortest month, February is packed with charm. Known for Valentine's Day, it's a month of love and togetherness. In the Northern Hemisphere, winter begins to ease. Festivals like Maha Shivaratri and Chinese New Year sometimes occur in this month, adding cultural richness.",
@@ -41,6 +38,16 @@ def months(request,month):
     
     "December": "December, the year’s finale, is synonymous with celebrations. Christmas and New Year’s Eve dominate the month, spreading joy and togetherness. In India, winter begins in full swing, and various cultural festivities abound. It’s a reflective time, embracing both nostalgia and hope for the future."
     }
+
+def month_id(request,id):
+    l=list(dir.keys())
+    url = reverse('months', args=[l[id-1]])
+    print(url)
+    return redirect(url)
+
+def months(request,month):
+    if month.lower() == 'favicon.ico':
+        return HttpResponse("")
     month_details={
         'name':month.capitalize(),
         'des': dir[month.capitalize()]

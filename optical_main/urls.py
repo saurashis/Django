@@ -5,5 +5,6 @@ urlpatterns = [
     path('',views.main,name='main'),
     path('home/',views.home,name='home'),
     path('about/',views.about,name='about'),
-    path('<month>',views.months,name='months'),
+    path('<int:id>', views.month_id, name='month_by_id'),
+    path('home/<month>',views.months,name='months'),
 ]
