@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="{% static 'optical_main/static/css/style.css' %}">
 </head>
 <body>
+
+    {% include 'Optical_main/nav-bar.html' %}
+
+    
     <div class="month-container">
         <div class="month-info">
             <h1>{{ month_data.name }}</h1>
@@ -16,5 +20,7 @@
         </div>
         
     </div>
+
+    
 </body>
 </html>

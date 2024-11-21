@@ -4,14 +4,7 @@ from django.urls import reverse
 import os
 # Create your views here.
 
-def main(request):
-    return render(request,'Optical_main/home.html')  
 
-def home(request):
-    return render(request,'Optical_main/home.html')  
-
-def about(request):
-    return HttpResponse('This about page')
 
 dir={
     "January": "The year kicks off with January, symbolizing new beginnings. It’s named after Janus, the Roman god of doors and transitions, reflecting the duality of looking back and forward. Special days include New Year’s Day and celebrations like Makar Sankranti and Pongal in India. The cold winter weather in many parts makes it a cozy time for reflection and resolutions.",
@@ -53,5 +46,16 @@ def months(request,month):
         'des': dir[month.capitalize()]
     }
     return render(request,'Optical_main/month.html',{'month_data':month_details})
+
+def main(request):
+    months=list(dir.keys())
+    month_list={'names':months}
+    return render(request,'Optical_main/home.html',{'month_name':month_list})  
+
+def home(request):
+    return render(request,'Optical_main/home.html')  
+
+def about(request):
+    return HttpResponse('This about page')
 
     
