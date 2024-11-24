@@ -6,31 +6,150 @@ import os
 
 
 
-dir={
-    "January": "The year kicks off with January, symbolizing new beginnings. It’s named after Janus, the Roman god of doors and transitions, reflecting the duality of looking back and forward. Special days include New Year’s Day and celebrations like Makar Sankranti and Pongal in India. The cold winter weather in many parts makes it a cozy time for reflection and resolutions.",
-    
-    "February": "The shortest month, February is packed with charm. Known for Valentine's Day, it's a month of love and togetherness. In the Northern Hemisphere, winter begins to ease. Festivals like Maha Shivaratri and Chinese New Year sometimes occur in this month, adding cultural richness.",
-    
-    "March": "March welcomes spring, a season of renewal and growth. Named after Mars, the Roman god of war, it's a time for blooming flowers and pleasant weather. Key events include International Women’s Day and Holi in India. It’s also when the Spring Equinox occurs, balancing day and night.",
-    
-    "April": "April bursts with life, with nature in full bloom. Often associated with rebirth and renewal, it’s famous for April Fool's Day and Earth Day. The month also marks significant festivals like Easter and Ram Navami. Its name derives from the Latin 'aperire,' meaning 'to open,' symbolic of spring’s flourishing.",
-    
-    "May": "A month of warmth and vitality, May is named after Maia, the Greek goddess of growth. It’s the time for Labor Day celebrations and honoring mothers on Mother's Day. In India, Buddha Purnima and summer vacations bring joy and relaxation to many.",
-    
-    "June": "June ushers in summer with long, sunlit days. It’s named after Juno, the Roman goddess of marriage and childbirth. World Environment Day and Father’s Day are notable celebrations, while the Summer Solstice marks the year’s longest day in the Northern Hemisphere.",
-    
-    "July": "Named after Julius Caesar, July is synonymous with summer fun, picnics, and barbecues. In the US, Independence Day celebrations dominate the month, while in India, the monsoon rains often bring relief. It’s also a time for leisure and mid-year reflections.",
-    
-    "August": "August, named after Emperor Augustus, exudes grandeur. In India, it’s marked by Independence Day and Raksha Bandhan. Globally, the Perseid meteor shower graces the skies. With monsoons continuing in many regions, it’s a mix of celebrations and natural beauty.",
-    
-    "September": "The transition month of September bridges summer and fall. The Autumn Equinox marks a balance of day and night. Key days include Teacher’s Day in India and International Literacy Day. Its name stems from the Latin 'septem,' meaning seven, as it was the seventh month in the ancient Roman calendar.",
-    
-    "October": "October dazzles with autumn hues and festive fervor. Dussehra and Diwali in India light up the month, while Halloween adds spookiness in the West. The crisp air and falling leaves create a picturesque setting. It’s also a time to reflect on gratitude and change.",
-    
-    "November": "November is a blend of serenity and festivity. In India, Diwali sometimes falls in this month, and Gurpurab is celebrated with devotion. Globally, Thanksgiving in the US promotes family bonds and gratitude. The cooler weather and shorter days make it a time for cozy gatherings.",
-    
-    "December": "December, the year’s finale, is synonymous with celebrations. Christmas and New Year’s Eve dominate the month, spreading joy and togetherness. In India, winter begins in full swing, and various cultural festivities abound. It’s a reflective time, embracing both nostalgia and hope for the future."
+dir=  {
+    1: {
+        "eyewear_name": "Urban Classic Spectacles",
+        "type": "Spectacles",
+        "description": "A lightweight metal-framed design that combines simplicity with elegance. Perfect for daily wear at work or casual outings, ensuring lasting comfort and style.",
+        "price": 2499,
+        "available_lens_options": ["Clear", "Blue-Light Blocking", "Anti-Glare", "Photochromic"]
+    },
+    2: {
+        "eyewear_name": "Sleek Round Frames",
+        "type": "Spectacles",
+        "description": "Vintage-inspired round frames that add a timeless, intellectual appeal. Made from premium acetate, they are both lightweight and durable for long-term use.",
+        "price": 2899,
+        "available_lens_options": ["Clear", "Blue-Light Blocking", "High-Index", "Anti-Glare"]
+    },
+    3: {
+        "eyewear_name": "Luxe Rectangle Frames",
+        "type": "Spectacles",
+        "description": "A minimalist, rectangular frame ideal for professionals. Crafted with lightweight metal, these frames are both stylish and practical for all-day wear.",
+        "price": 3399,
+        "available_lens_options": ["Clear", "High-Index", "Photochromic", "Blue-Light Blocking"]
+    },
+    4: {
+        "eyewear_name": "Elegance Cat-Eye Glasses",
+        "type": "Spectacles",
+        "description": "Designed for the modern woman, these cat-eye glasses exude elegance. The bold frames add a chic touch, making them perfect for formal and casual settings alike.",
+        "price": 3099,
+        "available_lens_options": ["Clear", "Anti-Glare", "Blue-Light Blocking", "Scratch-Resistant"]
+    },
+    5: {
+        "eyewear_name": "Retro Oval Glasses",
+        "type": "Spectacles",
+        "description": "Bring back vintage vibes with these lightweight, retro-inspired oval frames. Comfortable and stylish, they’re a great choice for casual wear.",
+        "price": 2599,
+        "available_lens_options": ["Clear", "Anti-Glare", "High-Index", "Blue-Light Blocking"]
+    },
+    6: {
+        "eyewear_name": "PureVision Rimless Glasses",
+        "type": "Spectacles",
+        "description": "These rimless glasses are the epitome of sophistication and simplicity. Designed for professionals, they are ultra-lightweight and almost invisible for a sleek, modern look.",
+        "price": 3799,
+        "available_lens_options": ["Clear", "High-Index", "Anti-Glare", "Blue-Light Blocking"]
+    },
+    7: {
+        "eyewear_name": "Bold Rectangle Glasses",
+        "type": "Spectacles",
+        "description": "Durable yet lightweight rectangular frames designed for durability and long-lasting comfort. Perfect for everyday use, blending utility and fashion effortlessly.",
+        "price": 2999,
+        "available_lens_options": ["Clear", "Anti-Glare", "Blue-Light Blocking", "Photochromic"]
+    },
+    8: {
+        "eyewear_name": "Fusion Dual-Tone Glasses",
+        "type": "Spectacles",
+        "description": "Trendy dual-tone frames designed for those who want to add a pop of color to their daily style. Lightweight and comfortable for all-day wear.",
+        "price": 2799,
+        "available_lens_options": ["Clear", "Blue-Light Blocking", "Anti-Glare", "Scratch-Resistant"]
+    },
+    9: {
+        "eyewear_name": "SmartFit Reading Glasses",
+        "type": "Spectacles",
+        "description": "These lightweight reading glasses are perfect for long hours of study or work. Designed to reduce eye strain, they provide sharp clarity and unmatched comfort.",
+        "price": 1999,
+        "available_lens_options": ["Reading", "Blue-Light Blocking", "Anti-Glare"]
+    },
+    10: {
+        "eyewear_name": "Minimalist Titanium Frames",
+        "type": "Spectacles",
+        "description": "A blend of durability and style, these titanium frames are designed for professionals who value a lightweight and sleek appearance.",
+        "price": 4099,
+        "available_lens_options": ["Clear", "High-Index", "Anti-Glare", "Photochromic"]
+    },
+    11: {
+        "eyewear_name": "Bold Wayfarer Sunglasses",
+        "type": "Sunglasses",
+        "description": "Featuring a matte-finish and classic wayfarer design, these sunglasses provide excellent UV protection and a bold look perfect for outdoor adventures.",
+        "price": 3199,
+        "available_lens_options": ["UV Protection", "Polarized", "Gradient"]
+    },
+    12: {
+        "eyewear_name": "Aviator Sunglasses Pro",
+        "type": "Sunglasses",
+        "description": "Iconic aviators with mirrored lenses to block glare and offer full UV protection. Lightweight and durable, they are perfect for sunny days or long drives.",
+        "price": 4299,
+        "available_lens_options": ["Polarized", "UV Protection", "Mirror Coated"]
+    },
+    13: {
+        "eyewear_name": "Polar Performance Shades",
+        "type": "Sunglasses",
+        "description": "Designed for adventurers, these polarized performance sunglasses reduce glare and offer superior clarity, making them ideal for hiking or water activities.",
+        "price": 3999,
+        "available_lens_options": ["Polarized", "UV Protection", "Scratch-Resistant"]
+    },
+    14: {
+        "eyewear_name": "Sunset Gradient Shades",
+        "type": "Sunglasses",
+        "description": "Featuring gradient-tinted lenses and a sleek metal frame, these sunglasses are perfect for sunny afternoons. A stylish and functional accessory for any occasion.",
+        "price": 3299,
+        "available_lens_options": ["Gradient", "UV Protection", "Scratch-Resistant"]
+    },
+    15: {
+        "eyewear_name": "Active Sport Sunglasses",
+        "type": "Sunglasses",
+        "description": "Built for performance, these wrap-around sunglasses offer impact-resistant lenses and UV protection. Perfect for outdoor sports and high-action adventures.",
+        "price": 4699,
+        "available_lens_options": ["Polarized", "UV Protection", "Scratch-Resistant"]
+    },
+    16: {
+        "eyewear_name": "Luxe Glam Round Shades",
+        "type": "Sunglasses",
+        "description": "A glamorous addition to your collection, these round mirrored sunglasses combine luxury with functionality, offering full UV protection for sunny days out.",
+        "price": 5199,
+        "available_lens_options": ["Mirror Coated", "Gradient", "Polarized"]
+    },
+    17: {
+        "eyewear_name": "Bold Oversized Sunglasses",
+        "type": "Sunglasses",
+        "description": "Make a statement with oversized frames and gradient lenses. These sunglasses are a perfect mix of fashion and function for the modern-day trendsetter.",
+        "price": 4499,
+        "available_lens_options": ["Gradient", "UV Protection", "Polarized"]
+    },
+    18: {
+        "eyewear_name": "SportShield Sunglasses",
+        "type": "Sunglasses",
+        "description": "Wrap-around sunglasses designed for athletes. With their scratch-resistant polarized lenses, they deliver unmatched clarity and protection.",
+        "price": 5499,
+        "available_lens_options": ["Polarized", "UV Protection", "Scratch-Resistant"]
+    },
+    19: {
+        "eyewear_name": "Mirrored Aviator Shades",
+        "type": "Sunglasses",
+        "description": "A bold and modern take on the classic aviators. Featuring reflective mirror lenses, these shades offer style, UV protection, and exceptional comfort.",
+        "price": 4999,
+        "available_lens_options": ["Mirror Coated", "UV Protection", "Polarized"]
+    },
+    20: {
+        "eyewear_name": "Urban Edge Square Shades",
+        "type": "Sunglasses",
+        "description": "Sharp and contemporary square sunglasses that redefine casual style. Lightweight and designed for maximum comfort, perfect for everyday use.",
+        "price": 3299,
+        "available_lens_options": ["UV Protection", "Gradient", "Polarized"]
     }
+}
+
+
 
 def month_id(request,id):
     l=list(dir.keys())
@@ -38,24 +157,23 @@ def month_id(request,id):
     print(url)
     return redirect(url)
 
-def months(request,month):
-    if month.lower() == 'favicon.ico':
-        return HttpResponse("")
-    month_details={
-        'name':month.capitalize(),
-        'des': dir[month.capitalize()]
-    }
-    return render(request,'Optical_main/month.html',{'month_data':month_details})
+def product(request,id):
+    eyewear_details=dir[id]
+    return render(request,'Optical_main/product.html',{
+        'eyewear_details':eyewear_details})
 
 def main(request):
-    months=list(dir.keys())
-    month_list={'names':months}
-    return render(request,'Optical_main/home.html',{'month_name':month_list})  
+    #eye_ware=list(dir.keys())
+    #eye_ware_list={'names':eye_ware}
+    return render(request,'Optical_main/home.html',{'dir':dir})  
 
 def home(request):
     return render(request,'Optical_main/home.html')  
 
+def cart_page(request):
+    return render(request,'Optical_main/cart-item.html')
+
 def about(request):
-    return HttpResponse('This about page')
+    return render(request,'Optical_main/test.html') 
 
     
