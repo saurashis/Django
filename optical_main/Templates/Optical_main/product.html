@@ -41,6 +41,15 @@
         .wishlist:hover {
             color: #e60073;
         }
+
+        
+        .custom {
+            margin-bottom:0px;
+        }
+
+        
+    
+        
          
     </style>
 
@@ -62,68 +71,226 @@
 
     {% include 'Optical_main/nav-bar.html'%}
 
-    <div class="container product-page">
+    
+    
+    <!-- Product Detail Page Content -->
+    <div class="container py-5 mt-5">
         <div class="row">
-            <!-- Product Image -->
-            <div class="col-md-4  text-center rounded ">
-                <div id="carouselExample" class="carousel slide rounded-lg">
-                    <div class="carousel-inner">
-                        {% for i in "12"|make_list %}
-                            <div class="carousel-item active">
-                                <img src="{% static 'optical_main/2.png' %}" class="d-block w-100 " style="border-radius: 10px;" alt="...">
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                  </div>
-            </div>
-            <!-- Product Details -->
-            <div class="col-md-6">
-                <h1 class="product-title">{{ eyewear_details.eyewear_name }}</h1>
-                
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                          Product Description
-                        </button>
-                      </h2>
-                      <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                          <strong>{{ eyewear_details.description }}</strong> 
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <!-- Left Column: Product Images -->
 
-                <p class="price">₹ {{eyewear_details.price}}</p>
-                <!-- Buttons -->
-                <div class="mb-3">
-                    <button class="btn btn-primary btn-lg me-2 buy-now">Buy Now</button>
-                    <button class="btn btn-secondary btn-lg me-2">Add to Cart</button>
-                    
-                    <button class="btn btn-outline-danger wishlist btn-lg">
-                        <i class="bi bi-heart"></i> Add to Wishlist
+            <style>
+                .picture{
+                    border-radius: 15px; 
+                    padding-bottom:20px;
+                }
+            </style>
+            <div class="col-md-5 picture">
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- Main Product Image -->
+                        <div class="carousel-item active">
+                            <img src="{% static 'optical_main/2.png' %} " style="border-radius: 7px;" class="d-block w-100" alt="Main Product Image" />
+                        </div>
+                        <!-- Thumbnail Images -->
+                        <div class="carousel-item">
+                            <img src="{% static 'optical_main/2.png' %}" style="border-radius: 7px;" style="border-radius: 7px;" class="d-block w-100" alt="Thumbnail 1" />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'optical_main/2.png' %}" class="d-block w-100" alt="Thumbnail 2" />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'optical_main/2.png' %}" style="border-radius: 7px;" class="d-block w-100" alt="Thumbnail 3" />
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <!-- Additional Information -->
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Brand:</strong> ExampleBrand</li>
-                    <li class="list-group-item"><strong>Category: </strong>{{ eyewear_details.type}}</li>
-                    <li class="list-group-item"><strong>Availability:</strong> In Stock</li>
-                    <li class="list-group-item"><strong>Delivery:</strong> Free Delivery within 3-5 days</li>
-                </ul>
+            </div>
+
+            <!-- Right Column: Product Details -->
+            <div class="col-md-6">
+                <h1 class="display-4">{{ product.eyewear_name }}</h1>
+                <p class="text-muted">Price: ₹{{ product.price }}</p>
+            
+
+                <!-- Customization Options -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class='row'>
+                        
+                        <div class="col-6">
+                            <label for="lensType" class="form-label">Lens Type</label>
+                            <select class="form-select" id="lensType" name="lens_type">
+                                {% for item in product.available_lens_options %}
+                                <option value={{ item }} >{{ item }}</option>
+                
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="color" class="form-label">Color</label>
+                            <select class="form-select" id="color" name="color">
+                                <option value="black">Black</option>
+                                <option value="brown">Brown</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="size" class="form-label">Size</label>
+                            <select class="form-select" id="size" name="size">
+                                <option value="s">Small</option>
+                                <option value="m">Medium</option>
+                                <option value="l">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Quantity and Buttons -->
+                    <div class="mt-4 d-flex align-items-center">
+                        <input type="number" class="form-control w-25" value="1" id="quantity" name="quantity" min="1" />
+                        <button type="submit" class="btn btn-primary ms-3">Add to Cart</button>
+                        <button type="button" class="btn btn-outline-secondary ms-2">Add to Wishlist</button>
+                        <button type="button" class="btn btn-danger ms-2">Buy Now</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
 
+        <style>
+            .des{
+                margin-top:60px;
+            }
+        </style>
+
+        <!-- Product Description -->
+        <div class="col-12 des">
+            <style>
+                .outline-dark {
+                    border-bottom-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                    border-bottom-width:0px;
+                    margin-right: 10px;
+                }
+            </style>
+            <p class="d-inline-flex g-0 custom">
+                <button class="btn btn-outline-dark outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="true" aria-controls="multiCollapseExample1">Description</button>
+                <button class="btn btn-outline-dark outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Specification</button>
+                <button class="btn btn-outline-dark outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">Reviews</button>
+            </p>
+            
+            <!-- Add the parent container for the collapsible elements -->
+            <div id="accordionGroup">
+                <div class="row gy-0">
+                    <div class="col">
+        
+                        <div class="collapse multi-collapse show" id="multiCollapseExample1" data-bs-parent="#accordionGroup">
+                            <div class="col-12">
+                                <div class="card card-body">
+                                    A bold and modern take on the classic aviators. Featuring reflective mirror lenses, these shades offer style, UV protection, and exceptional comfort.    
+                                </div>
+                            </div>
+                        </div>
+        
+        
+                        <div class="collapse multi-collapse" id="multiCollapseExample2" data-bs-parent="#accordionGroup">
+                            <div class="card card-body">
+                                <h5>Specification of the product</h5>
+        
+                                <div class="col-6">
+                                    <p>{{ product.description }}</p>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Specification</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Material</td>
+                                                <td>{{ product.material }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lens Type</td>
+                                                <td>{{ product.lens_type }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Frame Style</td>
+                                                <td>{{ product.frame_style }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Weight</td>
+                                                <td>{{ product.weight }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Care Instructions</td>
+                                                <td>{{ product.care_instructions }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+        
+        
+                        <div class="collapse multi-collapse" id="multiCollapseExample3" data-bs-parent="#accordionGroup">
+                            <div class="card card-body">
+                                Some placeholder content for the third collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            </div>
+                        </div>
+        
+        
+                    </div>
+                    
+                </div>
+            </div>
+        
+            <!-- Include Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+
+        <!-- Customer Reviews -->
+        <div id="reviews" class="mt-5">
+            <h3>Customer Reviews</h3>
+            <div>
+                <p>Average Rating: {{ product.rating }} / 5</p>
+                {% for review in product.reviews %}
+                    <div class="review">
+                        <strong>{{ review.author }} ({{ review.date }})</strong>
+                        <div class="stars">
+                            <p>Star</p>
+                        </div>
+                        <p>{{ review.content }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h4>Leave a Review</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="review" class="form-label">Your Review</label>
+                    <textarea class="form-control" id="review" name="review" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select class="form-select" id="rating" name="rating">
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+
+    
     <!-- Bootstrap JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

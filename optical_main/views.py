@@ -149,7 +149,11 @@ dir=  {
     }
 }
 
-
+def print_request(request):
+    res=(request.POST)
+    #res=dir(res)
+    print(res)
+    return HttpResponse(request.user)
 
 def month_id(request,id):
     l=list(dir.keys())
@@ -158,9 +162,9 @@ def month_id(request,id):
     return redirect(url)
 
 def product(request,id):
-    eyewear_details=dir[id]
+    product=dir[id]
     return render(request,'Optical_main/product.html',{
-        'eyewear_details':eyewear_details})
+        'product':product})
 
 def main(request):
     #eye_ware=list(dir.keys())
