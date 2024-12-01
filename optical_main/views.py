@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse,redirect
 from django.urls import reverse
 import os
+from .models import Product
 # Create your views here.
 
 
@@ -178,6 +179,14 @@ def cart_page(request):
     return render(request,'Optical_main/cart-item.html')
 
 def about(request):
-    return render(request,'Optical_main/test.html') 
+    for i in dir.values():
+        Product.objects.create(
+            name=i["eyewear_name"],
+            type=i["type"],
+            description=i["description"],
+            price=i["price"],
+            lens=i["available_lens_options"]
+            )
+    return render(request,'Optical_main/scroll_animation.html') 
 
     

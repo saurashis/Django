@@ -1,0 +1,240 @@
+==================================================Zoom effect===================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll-Synced Zoom Animation</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 300vh; /* To enable sufficient scrolling */
+      overflow-x: hidden;
+      background-color: black; /* Background remains black */
+    }
+
+    .text-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1); /* Default position and scale */
+      font-size: 90px;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      white-space: nowrap;
+      transform-origin: center; /* Center the scaling */
+    }
+  </style>
+</head>
+<body>
+  <div class="text-container" id="text">
+    Rama Optical
+  </div>
+
+  <script>
+    const text = document.getElementById("text");
+    const maxScale = 100; // Maximum zoom scale
+    const maxScroll = 500; // Scroll value at which maximum zoom happens (adjust as needed)
+
+    window.addEventListener("scroll", () => {
+      const scrollPosition = window.scrollY; // Get the current scroll position
+
+      // Calculate the scale factor (1 to maxScale based on scroll position)
+      const scale = 1 + (scrollPosition / maxScroll) * (maxScale - 1);
+
+      // Prevent scaling beyond maxScale
+      if (scale <= maxScale) {
+        text.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        text.style.opacity = Math.min(1, 1 - scrollPosition / maxScroll - 0.1); // Fade out gradually
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+========================================================3d card=========================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Card with Mouse Movement</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .card-container {
+      perspective: 1000px; /* Set perspective to give a 3D effect */
+    }
+
+    .card {
+      width: 300px;
+      height: 400px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.1s ease;
+      transform-style: preserve-3d; /* Ensure child elements are 3D */
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* Front face of the card */
+    .card .front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #3498db;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="card-container">
+    <div class="card" id="card">
+      <div class="front">
+        Hover Me
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById("card");
+
+    card.addEventListener('mousemove', (e) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenterX = cardRect.left + cardRect.width / 2;
+      const cardCenterY = cardRect.top + cardRect.height / 2;
+
+      const deltaX = e.clientX - cardCenterX;
+      const deltaY = e.clientY - cardCenterY;
+
+      const rotateX = (deltaY / cardRect.height) * 50;  // Rotate based on vertical mouse position
+      const rotateY = -(deltaX / cardRect.width) * 50;  // Rotate based on horizontal mouse position
+
+      // Apply rotation to the card
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      // Reset the card rotation when mouse leaves the card
+      card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+  </script>
+</body>
+</html>
+
+
+==========================================================Gradient=====================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rotating Gradient Border Button</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .button-container {
+      position: relative;
+      display: inline-block;
+      border-radius: 50px; /* Makes the border rounded */
+    }
+
+    .button-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50px;
+      padding: 5px; /* Thickness of the gradient border */
+      background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff);
+      background-size: 300% 300%; /* Larger size for smooth gradient animation */
+      animation: rotateGradient 3s linear infinite;
+      z-index: 0;
+    }
+
+    .button-container::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 50px;
+      background: #fff; /* Background color of the button */
+      z-index: 1;
+    }
+
+    .submit-button {
+      position: relative;
+      z-index: 2;
+      width: 250px;
+      height: 80px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 50px;
+    }
+
+    .submit-button:hover {
+      color: #555; /* Subtle hover effect */
+    }
+
+    @keyframes rotateGradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button class="submit-button">Submit</button>
+  </div>
+</body>
+</html>
+
+   
