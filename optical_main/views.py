@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse,redirect
 from django.urls import reverse
 import os
 from .models import Product
+from .forms import RatingForm
 # Create your views here.
 
 
@@ -179,14 +180,17 @@ def cart_page(request):
     return render(request,'Optical_main/cart-item.html')
 
 def about(request):
-    for i in dir.values():
-        Product.objects.create(
-            name=i["eyewear_name"],
-            type=i["type"],
-            description=i["description"],
-            price=i["price"],
-            lens=i["available_lens_options"]
-            )
-    return render(request,'Optical_main/scroll_animation.html') 
+    msg='Please enter the details'
+    
+    if request.method=='POST':
+        r=RatingForm(request.POST or None)
+        
+        if r.is_valid():
+            msg='Thanks for the update'
+            return redirect('about') 
+        else:
+            return render(request,'Optical_main/scroll_animation.html',{'form':r,'msg':msg})
+    r=RatingForm()
+    return render(request,'Optical_main/scroll_animation.html',{'form':r,'msg':msg}) 
 
     
