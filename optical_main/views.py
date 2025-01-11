@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse,redirect
 from django.urls import reverse
 import os
-from .models import Product
-from .forms import RatingForm
+
+
 # Create your views here.
 
 
@@ -152,16 +152,13 @@ dir=  {
 }
 
 def print_request(request):
-    res=(request.POST)
+    res=(request.__dict__)
     #res=dir(res)
     print(res)
     return HttpResponse(request.user)
 
 def month_id(request,id):
-    l=list(dir.keys())
-    url = reverse('months', args=[l[id-1]])
-    print(url)
-    return redirect(url)
+    return HttpResponse(id)
 
 def product(request,id):
     product=dir[id]
@@ -180,17 +177,7 @@ def cart_page(request):
     return render(request,'Optical_main/cart-item.html')
 
 def about(request):
-    msg='Please enter the details'
-    
-    if request.method=='POST':
-        r=RatingForm(request.POST or None)
-        
-        if r.is_valid():
-            msg='Thanks for the update'
-            return redirect('about') 
-        else:
-            return render(request,'Optical_main/scroll_animation.html',{'form':r,'msg':msg})
-    r=RatingForm()
-    return render(request,'Optical_main/scroll_animation.html',{'form':r,'msg':msg}) 
-
+    res=request
+    print(res.__dict__)
+    return HttpResponse('This is about page')
     

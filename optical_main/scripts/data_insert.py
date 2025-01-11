@@ -4,6 +4,9 @@ import sys
 import django
 from django.db import connection,models
 from django.db.models import base
+import random
+
+import datetime
 
 # Add the project directory to the system path
 
@@ -14,162 +17,210 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optial_shop.settings')  # Replace with your project name
 django.setup()
 
-# Import the model
-from optical_main.models import Product
-from optical_main.models import Type
-from django.db.models import Avg, Max,Count,Sum,F,CharField,Value
-from django.db.models.functions import Concat
-from django.db import connection
 
-type_list=['Spectacles', 'Reading Glass', 'Riding Glass', 'Protective Glass', 'Sunglasses']
+names_data =[
+    "Vintage Wayfarer Glasses",
+    "Minimalist Clear Frames",
+    "Mirrored Lens Sunglasses",
+    "Luxury Metal Frame Glasses",
+    "Smart Bluetooth Glasses",
+    "Trendy Cat-Eye Eyewear",
+    "Eco-Friendly Wooden Frames",
+    "UV Protection Sunglasses",
+    "Colorful Kids Eyeglasses",
+    "Fashionable Rimless Glasses",
+    "High-Definition Lenses",
+    "Designer Optical Frames",
+    "Polarized Driving Glasses",
+    "Fashion Forward Oval Frames",
+    "Sleek Titanium Glasses",
+    "Waterproof Sports Eyewear",
+    "Oversized Shield Sunglasses",
+    "Classic Black Metal Eyeglasses",
+    "Premium High-Index Lenses",
+    "Luxury Designer Sunglasses",
+    "Chic Transparent Frames",
+    "Reversible Flip-Up Glasses",
+    "Luxury Gradient Sunglasses",
+    "Sporty Wraparound Sunglasses",
+    "Bohemian Round Eyewear",
+    "Bold Geometric Glasses",
+    "Wooden Temple Glasses",
+    "Classic Gold-Frame Sunglasses",
+    "Unisex Minimalist Glasses",
+    "Street Style Sunglasses",
+    "Lightweight Aluminium Frames",
+    "Round Retro Optical Glasses",
+    "Dual-Tone Modern Eyeglasses",
+    "Futuristic Full-Rim Frames",
+    "Vintage Tortoise Shell Glasses",
+    "Matte Black Frame Sunglasses"
+]
 
-catalog = {
-    1: {
-        "eyewear_name": "Urban Classic Spectacles",
-        "type": "Spectacles",
-        "description": "A lightweight metal-framed design that combines simplicity with elegance. Perfect for daily wear at work or casual outings, ensuring lasting comfort and style.",
-        "price": 2499,
-        "available_lens_options": ["Clear", "Blue-Light Blocking", "Anti-Glare", "Photochromic"]
-    },
-    2: {
-        "eyewear_name": "Sleek Round Frames",
-        "type": "Spectacles",
-        "description": "Vintage-inspired round frames that add a timeless, intellectual appeal. Made from premium acetate, they are both lightweight and durable for long-term use.",
-        "price": 2899,
-        "available_lens_options": ["Clear", "Blue-Light Blocking", "High-Index", "Anti-Glare"]
-    },
-    3: {
-        "eyewear_name": "Luxe Rectangle Frames",
-        "type": "Spectacles",
-        "description": "A minimalist, rectangular frame ideal for professionals. Crafted with lightweight metal, these frames are both stylish and practical for all-day wear.",
-        "price": 3399,
-        "available_lens_options": ["Clear", "High-Index", "Photochromic", "Blue-Light Blocking"]
-    },
-    4: {
-        "eyewear_name": "Classic Reading Glasses",
-        "type": "Reading Glass",
-        "description": "Designed for avid readers, these glasses feature a lightweight frame and high-quality lenses to reduce eye strain during long reading sessions.",
-        "price": 1799,
-        "available_lens_options": ["Clear", "Anti-Glare"]
-    },
-    5: {
-        "eyewear_name": "Adjustable Focus Reading Glasses",
-        "type": "Reading Glass",
-        "description": "Equipped with adjustable focus lenses, these glasses are perfect for users with varying focal needs, providing clear vision for all distances.",
-        "price": 2199,
-        "available_lens_options": ["Clear", "Anti-Reflective"]
-    },
-    6: {
-        "eyewear_name": "Polarized Riding Glasses",
-        "type": "Riding Glass",
-        "description": "Durable and stylish riding glasses with polarized lenses that reduce glare and enhance visibility during outdoor adventures.",
-        "price": 3299,
-        "available_lens_options": ["Polarized", "UV Protection"]
-    },
-    7: {
-        "eyewear_name": "Wraparound Riding Goggles",
-        "type": "Riding Glass",
-        "description": "Designed for motorcyclists, these wraparound goggles offer a snug fit and superior protection from dust and wind.",
-        "price": 2999,
-        "available_lens_options": ["Anti-Fog", "UV Protection"]
-    },
-    8: {
-        "eyewear_name": "Safety Protective Glasses",
-        "type": "Protective Glass",
-        "description": "Essential safety glasses for industrial and lab work, featuring impact-resistant lenses and a comfortable fit for all-day wear.",
-        "price": 1499,
-        "available_lens_options": ["Clear", "Scratch-Resistant"]
-    },
-    9: {
-        "eyewear_name": "Anti-Fog Safety Goggles",
-        "type": "Protective Glass",
-        "description": "Heavy-duty goggles with anti-fog lenses, perfect for medical professionals or anyone working in high-humidity environments.",
-        "price": 1899,
-        "available_lens_options": ["Anti-Fog", "UV Protection"]
-    },
-    10: {
-        "eyewear_name": "Polarized Aviator Sunglasses",
-        "type": "Sunglasses",
-        "description": "Timeless aviator sunglasses with polarized lenses to reduce glare, offering both style and excellent UV protection.",
-        "price": 3499,
-        "available_lens_options": ["Polarized", "UV Protection"]
-    },
-    11: {
-        "eyewear_name": "Sporty Sunglasses",
-        "type": "Sunglasses",
-        "description": "Lightweight, sporty design perfect for outdoor activities. Features shatterproof lenses and maximum UV protection.",
-        "price": 2499,
-        "available_lens_options": ["Polarized", "Anti-Reflective"]
-    },
-    12: {
-        "eyewear_name": "Blue-Light Blocking Glasses",
-        "type": "Spectacles",
-        "description": "Modern frames with blue-light blocking lenses to reduce eye strain from prolonged screen exposure.",
-        "price": 1999,
-        "available_lens_options": ["Blue-Light Blocking", "Anti-Glare"]
-    },
-    13: {
-        "eyewear_name": "Photochromic Sunglasses",
-        "type": "Sunglasses",
-        "description": "Lenses that automatically adjust to changing light conditions, offering convenience and UV protection.",
-        "price": 2999,
-        "available_lens_options": ["Photochromic", "UV Protection"]
-    },
-    14: {
-        "eyewear_name": "Retro Round Glasses",
-        "type": "Spectacles",
-        "description": "Retro-inspired frames that blend vintage charm with modern design. Ideal for anyone looking to make a bold style statement.",
-        "price": 2799,
-        "available_lens_options": ["Clear", "High-Index"]
-    },
-    15: {
-        "eyewear_name": "Gaming Glasses",
-        "type": "Protective Glass",
-        "description": "Specially designed glasses for gamers with blue-light blocking and anti-glare lenses to reduce eye fatigue.",
-        "price": 1999,
-        "available_lens_options": ["Blue-Light Blocking", "Anti-Glare"]
-    },
-    16: {
-        "eyewear_name": "Pilot Goggles",
-        "type": "Riding Glass",
-        "description": "Vintage-inspired goggles perfect for pilots and bikers, offering comfort and wind protection.",
-        "price": 2799,
-        "available_lens_options": ["Anti-Reflective", "UV Protection"]
-    },
-    17: {
-        "eyewear_name": "Minimalist Square Frames",
-        "type": "Spectacles",
-        "description": "Clean, square-shaped frames that suit any face shape. Lightweight and designed for comfort and style.",
-        "price": 2199,
-        "available_lens_options": ["Clear", "Anti-Glare"]
-    },
-    18: {
-        "eyewear_name": "Cycling Glasses",
-        "type": "Riding Glass",
-        "description": "Ergonomic frames designed for cyclists, with shatterproof and UV-protective lenses for enhanced performance.",
-        "price": 3199,
-        "available_lens_options": ["Polarized", "UV Protection"]
-    },
-    19: {
-        "eyewear_name": "Industrial Safety Glasses",
-        "type": "Protective Glass",
-        "description": "Heavy-duty safety glasses with side shields and impact-resistant lenses for optimal protection.",
-        "price": 1599,
-        "available_lens_options": ["Clear", "Scratch-Resistant"]
-    },
-    20: {
-        "eyewear_name": "Premium Cat-Eye Sunglasses",
-        "type": "Sunglasses",
-        "description": "Chic, cat-eye frames with polarized lenses that offer a bold fashion statement and superior UV protection.",
-        "price": 3799,
-        "available_lens_options": ["Polarized", "Anti-Reflective"]
-    }
-}
+brands_data = random.choice([
+    "Luxora Optics",
+    "Visionary Shades",
+    "ClearView Eyewear",
+    "Sunbeam Spectacles",
+    "BoldFrame",
+    "PureLens",
+    "UrbanOptic",
+    "Sunglo Eyewear",
+    "VividEyes",
+    "Eclat Glasses"
+])
+
+description_data="A cool pair of sunglasses"
+mrp_data=random.randrange(900,2000)
+catagory_data = random.choice(['EYEWEAR', 'SUNGLASSES', 'READING_GLASS', 'OTHERS'])
+material_data = random.choice(['PLASTIC', 'METAL', 'COMPOSITE'])
+lens_data=random.choice(['Clear', 'High-Index', 'Photochromic', 'Blue-Light Blocking'])
+stock_data=random.randrange(10,100)
+discount_data=random.randrange(0,50)
+date_data=datetime.date.today()
+
+first_names = [
+    "Arjun",
+    "Priya",
+    "Ravi",
+    "Sneha",
+    "Rahul",
+    "Ananya",
+    "Vikram",
+    "Kavya",
+    "Amit",
+    "Neha",
+    "Siddharth",
+    "Isha",
+    "Rohit",
+    "Pooja",
+    "Karan",
+    "Meera",
+    "Akash",
+    "Shreya",
+    "Manish",
+    "Tanya"
+]
 
 
-#t=Type.objects.values_list('name',flat=True)
-#['Spectacles', 'Reading Glass', 'Riding Glass', 'Protective Glass', 'Sunglasses']
+last_names = [
+    "Sharma",
+    "Verma",
+    "Gupta",
+    "Patel",
+    "Singh",
+    "Kumar",
+    "Das",
+    "Iyer",
+    "Chopra",
+    "Nair",
+    "Malhotra",
+    "Reddy",
+    "Joshi",
+    "Mehta",
+    "Agarwal",
+    "Jain",
+    "Chaudhary",
+    "Pandey",
+    "Yadav",
+    "Bhattacharya"
+]
+last_names = [
+    "Sharma",
+    "Verma",
+    "Gupta",
+    "Patel",
+    "Singh",
+    "Kumar",
+    "Das",
+    "Iyer",
+    "Chopra",
+    "Nair",
+    "Malhotra",
+    "Reddy",
+    "Joshi",
+    "Mehta",
+    "Agarwal",
+    "Jain",
+    "Chaudhary",
+    "Pandey",
+    "Yadav",
+    "Bhattacharya"
+]
 
-t=Product.objects.values('type__name').annotate(pr=Count('id'))
-for i in t:
-    print(i)
+
+
+from optical_main.models import Product, Customer,Order,Feedback
+from django.contrib.auth.models import User
+
+def user_insert():
+    for i in range(20):
+        user = User.objects.create_user(
+            username=f"{first_names[i].lower()}_{last_names[i].lower()}",
+            email=f"{first_names[i].lower()}{last_names[i].lower()}@example.com",
+            password="password123"
+
+        )
+        user.save()
+        print(f"User {first_names[i]} inserted successfully")
+
+def customer_insert():
+    for i in range(20):
+        customer = Customer.objects.create(
+            userprofile=User.objects.get(id=i+2),
+            first_name=first_names[i],
+            last_name=last_names[i],
+            email=f"{first_names[i].lower()}{last_names[i].lower()}@example.com",
+            phone=f"9{random.randint(100000000, 999999999)}",
+            address=f"{random.randint(1, 999)}, {random.choice(['1st', '2nd', '3rd', '4th'])} Main, {random.choice(['1st', '2nd', '3rd', '4th'])} Block, {random.choice(['Koramangala', 'Indiranagar', 'HSR Layout', 'JP Nagar'])}, Bangalore",
+            dob=datetime.date(random.randint(1970, 2000), random.randint(1, 12), random.randint(1, 28))
+        )
+        customer.save()
+        print(f"Customer {first_names[i]} inserted successfully")
+
+def product_insert():
+    product = Product.objects.create(
+        name=names_data,
+        brand=brands_data,
+        description=description_data,
+        MRP=mrp_data,
+        category=catagory_data,
+        material=material_data,
+        lens=lens_data,
+        stock=stock_data,
+        discount=discount_data,
+        date=date_data
+    )
+    product.save()
+    print(f"Product inserted successfully")
+
+def order_create(n):
+    for i in range(n):
+        product_id=random.randint(1, 40)
+        order = Order.objects.create(
+            customer=Customer.objects.get(id=random.randint(2, 20)),
+            product=Product.objects.get(id=product_id),
+            price=Product.objects.get(id=product_id).MRP,
+            quantity=random.randint(1, 5),
+            date=datetime.date(random.randint(2023, 2024), random.randint(1, 12), random.randint(1, 28)),
+            Payment_mode=random.choice(['CASH', 'UPI'])
+        )
+        order.save()
+        print(f"Order {i+1} inserted successfully")
+
+def feedback_create(n):
+    for i in range(n):
+        feedback = Feedback.objects.create(
+
+        order=Order.objects.get(id=i+1),    
+        rating=random.randint(1, 5),
+        comment = 'This product is fabulous',
+        date=Order.objects.get(id=i+1).date+ datetime.timedelta(days=random.randint(1, 10)))
+
+        feedback.save()
+        print(f"Feedback {i+1} inserted successfully")
+
+
+        
+
+    
