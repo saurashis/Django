@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse,redirect
 from django.urls import reverse
+
+
 import os
+import copy
 
 
 # Create your views here.
@@ -177,7 +180,11 @@ def cart_page(request):
     return render(request,'Optical_main/cart-item.html')
 
 def about(request):
-    res=request
-    print(res.__dict__)
-    return HttpResponse('This is about page')
+    
+    return (
+        {
+            'data':'Saurashis'
+        }
+    )
+
     
