@@ -17,6 +17,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optial_shop.settings')  # Replace with your project name
 django.setup()
 
+from django.contrib.auth.models import User
 
 names_data =[
     "Vintage Wayfarer Glasses",
@@ -152,6 +153,8 @@ last_names = [
 
 from optical_main.models import Product, Customer,Order,Feedback
 from django.contrib.auth.models import User
+from django.db.models import Count,F,Subquery,OuterRef,Avg,Sum,Max,Min,Q
+from django.db import transaction
 
 def user_insert():
     for i in range(20):
@@ -221,6 +224,5 @@ def feedback_create(n):
         print(f"Feedback {i+1} inserted successfully")
 
 
-        
 
     

@@ -6,7 +6,7 @@ class Product(models.Model):
    
     name = models.CharField(max_length=50, help_text="Enter the product name")
     brand = models.CharField(max_length=50, help_text="Enter the brand name")
-    description = models.TextField(help_text="Enter a description of the product")
+    description = models.CharField(max_length=50,help_text="Enter a description of the product")
     MRP = models.IntegerField(default=0, help_text="Enter the maximum retail price")
     
 class Order(models.Model):

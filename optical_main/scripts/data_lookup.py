@@ -9,14 +9,17 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optial_shop.settings')  # Repla
 django.setup()
 
 from optical_main.models import Product, Customer, Order, Feedback
-from django.db.models import Count,F,Subquery,OuterRef,Avg
+from django.db.models import Count,F,Subquery,OuterRef,Avg,Sum,Max,Min,Q
 from django.db import connection
+from django.conf import settings
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+import random
 
-order_list=Order.objects.filter(product=OuterRef('id')).order_by('-date')[:1].values('customer__first_name')
-product_list=Product.objects.annotate(last_buy=Subquery(order_list))
+p=Product.objects.filter(id__range=(5,15)).update(category='ETHNIC EYEWEAR')
+print(p)
+p=Product.objects.filter(id__range=(5,15))
+for i in p:
+    print(i.id,i.name,i.category)
 
-
-for i in product_list:
-    print(f"{i.name}__{i.last_buy}")
-print('---------------------------------------------------')
-print(connection.queries)
+#Product.objects.bulk_update(p,['MRP'])

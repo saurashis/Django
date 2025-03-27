@@ -115,8 +115,25 @@
 
             <!-- Right Column: Product Details -->
             <div class="col-md-6">
-                <h1 class="display-4">{{ product.eyewear_name }}</h1>
-                <p class="text-muted">Price: ₹{{ product.price }}</p>
+                <h1 class="display-4">{{ product.name }}</h1>
+                <h4 class="text-muted">Price: ₹{{ product.MRP }}</h4>
+
+                <span style="display: flex; gap: 10px;">
+                    <span style="display: flex; gap: 3px;">
+                        {% for _ in ""|rjust:round_avg %}
+                        <i class="bi bi-star-fill"></i>
+                        {% endfor %}
+
+                        {% if half_star  %}
+                        <i class="bi bi-star-half"></i>
+                        {% endif %}
+
+                    </span>
+                <p> {{ avg.rating }} </p>
+                <i class="bi bi-dot"></i>
+                <p> {{ c }} Reviews</p>
+                </span>
+           
             
 
                 <!-- Customization Options -->
@@ -127,10 +144,10 @@
                         <div class="col-6">
                             <label for="lensType" class="form-label">Lens Type</label>
                             <select class="form-select" id="lensType" name="lens_type">
-                                {% for item in product.available_lens_options %}
-                                <option value={{ item }} >{{ item }}</option>
+                    
+                                <option value={{ item }} >{{ product.lens }}</option>
                 
-                                {% endfor %}
+                               
                             </select>
                         </div>
                         <div class="col-6">
@@ -151,10 +168,10 @@
                     </div>
                     <!-- Quantity and Buttons -->
                     <div class="mt-4 d-flex align-items-center">
-                        <input type="number" class="form-control w-25" value="1" id="quantity" name="quantity" min="1" />
+                        <input type="number" class="form-control w-25" value="1" id="quantity" name="quantity" min="1" max={{ product.stock }} />
                         <button type="submit" class="btn btn-primary ms-3">Add to Cart</button>
                         <button type="button" class="btn btn-outline-secondary ms-2">Add to Wishlist</button>
-                        <button type="button" class="btn btn-danger ms-2">Buy Now</button>
+                        <button type="submit" class="btn btn-danger ms-2">Buy Now</button>
                     </div>
                 </form>
             </div>
@@ -190,7 +207,7 @@
                         <div class="collapse multi-collapse show" id="multiCollapseExample1" data-bs-parent="#accordionGroup">
                             <div class="col-12">
                                 <div class="card card-body">
-                                    A bold and modern take on the classic aviators. Featuring reflective mirror lenses, these shades offer style, UV protection, and exceptional comfort.    
+                                    {{ product.description }}    
                                 </div>
                             </div>
                         </div>
@@ -216,11 +233,11 @@
                                             </tr>
                                             <tr>
                                                 <td>Lens Type</td>
-                                                <td>{{ product.lens_type }}</td>
+                                                <td>{{ product.lens }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Frame Style</td>
-                                                <td>{{ product.frame_style }}</td>
+                                                <td>{{ product.catagory }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Weight</td>
@@ -239,7 +256,16 @@
         
                         <div class="collapse multi-collapse" id="multiCollapseExample3" data-bs-parent="#accordionGroup">
                             <div class="card card-body">
-                                Some placeholder content for the third collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                {% for i in feedback %}
+                                <h5> {{ i.name  }} </h5>
+                                <span>
+                                {% for _ in ""|rjust:i.rating %}
+                                <i class="bi bi-star-fill"></i>
+                                {% endfor %}
+                                </span>
+                                <p> {{ i.comment }}
+                                
+                                {% endfor %}
                             </div>
                         </div>
         

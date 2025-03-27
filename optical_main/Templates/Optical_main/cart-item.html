@@ -9,45 +9,111 @@
     
     {% load static %} 
 </head>
-
-<body>
-
-    {% include 'Optical_main/nav-bar.html' %}
-
+{% include 'Optical_main/nav-bar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
     <style>
-        .padding-heading {
-            margin-bottom : 100px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .order-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .order-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .order-details {
+            flex-grow: 1;
+            padding: 0 20px;
+        }
+
+        .order-details h3 {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .order-details p {
+            margin: 3px 0;
+            color: #666;
+        }
+
+        .status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .status.pending {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .status.shipped {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .status.delivered {
+            background-color: #28a745;
+            color: white;
         }
     </style>
-
-    <div class="jumbotron text-center padding-heading">
-        <h1>Cart page</h1>
-        <p>Resize this responsive page to see the effect
-        </p> 
-    </div>
-
-
+</head>
+<body>
     <div class="container">
-        <div class="row gy-4">
-
-          <div class="col-3">
-            <div class="card card-style">
-                <div class="image-container">
-                    <img src="{% static 'optical_main/2.png' %}" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">item</h5>
-                    <p class="card-text">
-                        Click to know more about item.
-                    </p>
-                    <a href="#" class="btn btn-primary">Go to page</a>
-                </div>
+        <h2>Order History</h2>
+        {% for i in order %}
+        <div class="order-card">
+            <img src="{% static 'optical_main/2.png' %}" alt="Product">
+            <div class="order-details">
+                <h3>{{i.product}}</h3>
+                <p><strong>Order ID:</strong> {{i.id}}</p>
+                <p><strong>Date:</strong>{{i.date}}</p>
+                <p><strong>Price:</strong>{{i.price}}</p>
             </div>
+            {% if i.Payment_mode == 'UPI' %}
+            <span class="status pending">UPI</span>
+            {% elif i.Payment_mode == 'CASH' %}
+            <span class="status delivered">CASH</span>
+            {% endif %}
         </div>
-          
-        </div>
+        {% endfor %}
 
-   
-
+    </div>
 </body>
-  
+</html>

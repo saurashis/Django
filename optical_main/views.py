@@ -1,10 +1,17 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse,redirect
 from django.urls import reverse
-
-
+from .forms import LoginForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.db.models import F,Avg
+from optical_main.models import Product, Customer, Order, Feedback
+from django.db import connection
 import os
 import copy
+from django.contrib.sessions.models import Session
+from django.utils.timezone import now
+from django.contrib import messages
 
 
 # Create your views here.
@@ -164,27 +171,113 @@ def month_id(request,id):
     return HttpResponse(id)
 
 def product(request,id):
-    product=dir[id]
+    product=Product.objects.get(id=id)
+    f=Feedback.objects.filter(order__product_id=id).annotate(name=F('order__customer__first_name'))
+    c=Feedback.objects.filter(order__product_id=id).annotate(name=F('order__customer__first_name')).count()
+    print(c)
+    hh=Feedback.objects.filter(order__product_id=id).aggregate(rating=Avg('rating'))
+    hh["rating"] = round(hh["rating"], 2)
+    round_avg=int(hh['rating'])
+    point_value=hh['rating']-round_avg
+    if point_value>=0.5:
+        half_star=True
+    else:
+        half_star=False
+    if request.method=='POST':
+       
+        d=copy.deepcopy(request.POST)
+        d.pop('csrfmiddlewaretoken')
+        d['product']=product.id
+        d['customer']=request.user.pk
+        return redirect(f"{reverse('order')}?{d.urlencode()}")
+
     return render(request,'Optical_main/product.html',{
-        'product':product})
+        'product':product,'feedback':f,'avg':hh,'round_avg':round_avg,'half_star':half_star,'c':c})
 
 def main(request):
-    #eye_ware=list(dir.keys())
-    #eye_ware_list={'names':eye_ware}
-    return render(request,'Optical_main/home.html',{'dir':dir})  
+    p=Product.objects.all()
+    if request.user.is_authenticated:
+        
+        if request.user.pk==1:
+            user=Customer.objects.get(id=request.user.pk)
+        else:
+            user=Customer.objects.get(id=(int(request.user.pk)-1))
+        return render(request,'Optical_main/home.html',{'dir':p,'c_user':user.first_name})  
+    else:
+        return render(request,'Optical_main/home.html',{'dir':p})
+
+
+
+
+@login_required
+def order(request):
+    if request.method=='GET':
+        data=copy.deepcopy(request.GET)
+        id=data['product']
+        product=Product.objects.values('name','MRP').get(id=int(id))
+        data['total_price']=int(product['MRP'])*int(data['quantity'])
+        c=Customer.objects.values('phone','address','first_name').get(id=int(data['customer'])-1)
+        return render(request,'Optical_main/order.html',{'product':product,'data':data,'customer':c})
+    
+    elif request.method== 'POST':
+        data=copy.deepcopy(request.GET)
+        try:
+            o=Order.objects.create(
+                customer = Customer.objects.get(id=int(data['customer'])-1),
+                product = Product.objects.get(id=int(data['product'])-1),
+                price=Product.objects.get(id=int(data['product'])-1).MRP,
+                quantity = data['quantity'],
+                Payment_mode=(request.POST.get('payment_method')).upper()
+            )
+            o.save()
+            print('data saved')
+            messages.success(request, "Your order has been placed successfully!") 
+            messages.success(request, "Thank you!") 
+        except Exception as e:
+            print(e)
+            messages.error(request, e)
+            return redirect(f"{reverse('order')}?{data.urlencode()}")
+        return redirect('main')
+    
+
 
 def home(request):
-    return render(request,'Optical_main/home.html')  
-
+    #logout(request)
+    return render(request,'Optical_main/scroll_animation.html') 
+ 
+@login_required
 def cart_page(request):
-    return render(request,'Optical_main/cart-item.html')
-
-def about(request):
+    if request.user.pk==1:
+        o=Order.objects.filter(customer=request.user.pk)
+    else:
+        o=Order.objects.filter(customer=request.user.pk-1)
     
-    return (
-        {
-            'data':'Saurashis'
-        }
-    )
+    print(o)
+    return render(request,'Optical_main/cart-item.html',{'order':o})
 
-    
+def loginview(request):
+    if request.method=='POST':
+        form=LoginForm(request.POST)
+        if form.is_valid():
+            user=authenticate(request,username=form.cleaned_data['user_id'],password=form.cleaned_data['password'])
+            if user is not None:
+                login(request,user)
+                print('User logged in')
+                p=request.GET.get('next','home')
+                return redirect(p)
+                
+            return redirect(reverse('loginpage'))
+            connection.close()
+        else:
+            form=LoginForm()
+    else:
+        form=LoginForm()
+        return(render(request,'Optical_main/test.html',{'form':form,'user':request.user}))
+
+def logoutview(request):
+    logout(request)
+    return redirect('home') 
+
+
+def hero(request):
+    return render(request,'Optical_main/hero.html')

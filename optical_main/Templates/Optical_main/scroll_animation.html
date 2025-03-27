@@ -1,14 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Submit Rating</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        /* Fullscreen Background */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center/cover; /* Example background */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Semi-transparent Alert Box */
+        .login-alert {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2); /* White with transparency */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        /* Heading inside alert box */
+        .login-alert h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        /* Login Button */
+        .login-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: rgba(0, 123, 255, 0.8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        /* Hover Effect */
+        .login-button:hover {
+            background: rgba(0, 123, 255, 1);
+            transform: scale(1.05);
+        }
+
+        /* Dark overlay */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ msg }}</h1>
-    <form method="post">  <!-- Always use POST for submitting data -->
-        {% csrf_token %}  <!-- CSRF protection token -->
-        {{ form.as_p }}    <!-- Render form fields -->
-        <button type="submit">Submit</button>
-    </form>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Login Alert Box -->
+    <div class="login-alert" id="loginAlert">
+        <h2>Please Log In</h2>
+        <a href="{% url 'loginpage' %}" class="login-button">Login</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let isAuthenticated = {{ request.user.is_authenticated|lower }}; // Get user auth status from Django
+
+            if (!isAuthenticated) {
+                document.getElementById("loginAlert").style.display = "block"; // Show login box
+                document.getElementById("overlay").style.display = "block"; // Show overlay
+            }
+        });
+    </script>
+
 </body>
 </html>

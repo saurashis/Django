@@ -58,6 +58,13 @@
             </style>
 
             <div class="d-flex cart">
+              <a class="nav-link" href="{% url 'logoutpage' %}">
+                <i class="bi bi-escape"></i>
+                  log out
+              </a>
+          </div>
+
+            <div class="d-flex cart">
                 <a class="nav-link" href="#">
                     <i class="bi bi-bag-heart"></i>
                     Wish list
@@ -71,13 +78,20 @@
                 </a>
             </div>
 
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <div class="dropdown">
+              <button class="btn" style="padding-left:0px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>
 
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item active" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Order History</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </div>
             
-
 
           </div>
         </div>

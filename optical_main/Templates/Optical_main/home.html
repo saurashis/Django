@@ -22,10 +22,22 @@
   </style>
 
  {% include 'Optical_main/nav-bar.html' %}
-
+ {% if messages %}
+ {% for message in messages %}
+     <div class="alert 
+         {% if message.tags == 'success' %}alert-success
+         {% elif message.tags == 'error' %}alert-danger
+         {% elif message.tags == 'warning' %}alert-warning
+         {% elif message.tags == 'info' %}alert-info{% endif %} 
+         alert-dismissible fade show" role="alert">
+         {{ message }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+ {% endfor %}
+{% endif %}
 
 <div class="jumbotron text-center">
-  <h1>My First Bootstrap Page</h1>
+  <h1>Welcome back {{c_user|default:"Guest"}}</h1>
   <p>Resize this responsive page to see the effect!</p> 
 </div>
   
@@ -34,16 +46,17 @@
 
 <div class="container">
   <div class="row gy-4">
-    {% for id,values in dir.items %}  
+    {% for id in dir %}  
+   
     <div class="col-3">
-      <<a href="{% url "product_details" id %}" class="card card-style" style="text-decoration: none;">
+      <<a href="{% url "product_details" id.id %}" class="card card-style" style="text-decoration: none;">
           <div class="image-container">
               <img src="{% static 'optical_main/2.png' %}" class="card-img-top">
           </div>
           <div class="card-body">
-              <h5 class="card-title">{{ values.eyewear_name }}</h5>
-              <p>{{values.type}}</p>
-              <h5>₹{{values.price}}</h5>
+              <h5 class="card-title">{{ id.name }}</h5>
+              <p>{{id.type}}</p>
+              <h5>₹{{id.MRP}}</h5>
               
               
           </div>

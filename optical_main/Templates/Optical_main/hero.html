@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Eye+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+</head>
+
+<body class="font-sans bg-gray-100">
+    <!-- Top Header -->
+    <div class="bg-black text-white text-sm flex justify-between px-4 py-2">
+        <div>Need Help? <span class="text-green-400 font-bold">Call 1800-266-0123</span></div>
+        <div class="space-x-4">
+            <a href="#" class="hover:underline">Eye Testing</a>
+            <a href="#" class="hover:underline">Hearing Test</a>
+            <a href="#" class="hover:underline">Sign In</a>
+            <a href="#" class="hover:underline">Track Order</a>
+            <a href="#" class="hover:underline">Find A Store</a>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center py-3">
+            <div class="text-2xl font-bold">TITAN <span class="text-blue-400">EYE+</span></div>
+            <div class="flex-1 mx-4">
+                <input type="text" placeholder="Search for Eyeglasses, Sunglasses"
+                    class="w-full px-4 py-2 border rounded-full">
+            </div>
+            <div class="space-x-6 text-sm font-semibold">
+                <a href="#" class="hover:text-blue-500">EYEGLASSES</a>
+                <a href="#" class="hover:text-blue-500">SUNGLASSES</a>
+                <a href="#" class="hover:text-blue-500">POWER SUNGLASSES</a>
+                <a href="#" class="hover:text-blue-500">COMPUTER GLASSES</a>
+                <a href="#" class="hover:text-blue-500">HEARING AIDS</a>
+                <a href="#" class="hover:text-blue-500">CONTACT LENSES</a>
+                <a href="#" class="hover:text-blue-500">ACCESSORIES</a>
+                <a href="#" class="hover:text-blue-500">BRANDS</a>
+            </div>
+            <div class="relative">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner / Carousel -->
+    <div class="relative w-full max-w-screen-xl mx-auto mt-4">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide relative">
+                    <img src="https://placehold.co/1200x500/49b6d6/ffffff?text=25%2B+International+Brands"
+                        alt="Titan Sunglasses Ad" class="w-full rounded-lg">
+                    <div class="absolute top-60 left-10 text-white">
+                        <h2 class="text-3xl font-bold">25+ International Brands</h2>
+                        <p class="text-xl mt-4">Buy 2 Sunglasses & get 20% off</p>
+                        <button class="mt-4 px-9 py-2 bg-blue-500 text-white rounded-full shadow-lg">Shop Now</button>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <img src="https://placehold.co/1200x500/gray/ffffff?text=Premium+Sunglasses" 
+                        alt="Premium Sunglasses Ad"
+                        class="w-full rounded-lg">
+                </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <img src="https://placehold.co/1200x500/darkblue/ffffff?text=New+Titan+Collection"
+                        alt="Titan New Collection" class="w-full rounded-lg">
+                </div>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <div class="absolute top-1/2 left-2 transform -translate-y-1/2 z-10">
+                <button class="swiper-button-prev bg-white text-black px-4 py-2 rounded-full shadow-lg">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="absolute top-1/2 right-2 transform -translate-y-1/2 z-10">
+                <button class="swiper-button-next bg-white text-black px-4 py-2 rounded-full shadow-lg">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop by Category -->
+    <div class="text-center mt-10">
+        <h2 class="text-2xl font-bold">Shop by Category</h2>
+        <div class="flex justify-center space-x-10 mt-4 text-lg font-semibold">
+            <a href="#" class="relative text-black after:absolute after:w-full after:h-1 after:bg-blue-500 after:left-0 after:bottom-0">MEN</a>
+            <a href="#" class="text-gray-500 hover:text-black transition">WOMEN</a>
+            <a href="#" class="text-gray-500 hover:text-black transition">KIDS</a>
+        </div>
+    </div>
+
+    <!-- Offers Section -->
+    <div class="bg-gray-200 text-center py-4 mt-8">
+        <p class="text-sm font-medium">Explore best offers available online</p>
+        <button class="mt-2 px-6 py-2 bg-blue-500 text-white rounded-full shadow-lg">Explore Special Offers</button>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script>
+</body>
+
+</html>
